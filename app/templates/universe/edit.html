@@ -1,0 +1,120 @@
+{# app/templates/universe/edit.html #}
+{% extends "base.html" %}
+
+{% block title %}
+{% if mode == "edit" %}Edit Universe Stock{% else %}New Universe Stock{% endif %}
+{% endblock %}
+
+{% block content %}
+<h2>
+    {% if mode == "edit" %}
+        Edit Universe Stock
+    {% else %}
+        New Universe Stock
+    {% endif %}
+</h2>
+
+{% if mode == "edit" and item %}
+    {% set action_url = "/universe/" ~ item.id ~ "/edit" %}
+{% else %}
+    {% set action_url = "/universe/new" %}
+{% endif %}
+
+<form action="{{ action_url }}" method="post">
+    <div class="mb-3">
+        <label for="symbol" class="form-label">Symbol</label>
+        <input
+            type="text"
+            id="symbol"
+            name="symbol"
+            class="form-control"
+            required
+            value="{{ item.symbol if item else '' }}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="exchange_id" class="form-label">Exchange</label>
+        <select
+            id="exchange_id"
+            name="exchange_id"
+            class="form-select"
+            required
+        >
+            <option value="">-- select exchange --</option>
+            {% for ex in exchanges %}
+                <option value="{{ ex.id }}"
+                    {% if item and item.exchange_id == ex.id %}selected{% endif %}
+                >
+                    {{ ex.code }} - {{ ex.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="yfinance_ticker" class="form-label">yfinance ticker</label>
+        <input
+            type="text"
+            id="yfinance_ticker"
+            name="yfinance_ticker"
+            class="form-control"
+            value="{{ item.yfinance_ticker if item and item.yfinance_ticker else '' }}"
+        >
+        <div class="form-text">
+            For US/Canada stocks, set the exact ticker used in yfinance (e.g. AAPL, SHOP.TO).
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="bse_code" class="form-label">BSE code (FinInstrmId)</label>
+        <input
+            type="text"
+            id="bse_code"
+            name="bse_code"
+            class="form-control"
+            value="{{ item.bse_code if item and item.bse_code else '' }}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="bse_ticker" class="form-label">BSE ticker (TckrSymb)</label>
+        <input
+            type="text"
+            id="bse_ticker"
+            name="bse_ticker"
+            class="form-control"
+            value="{{ item.bse_ticker if item and item.bse_ticker else '' }}"
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="isin" class="form-label">ISIN</label>
+        <input
+            type="text"
+            id="isin"
+            name="isin"
+            class="form-control"
+            value="{{ item.isin if item and item.isin else '' }}"
+        >
+    </div>
+
+    <div class="mb-3 form-check">
+        {% set active_val = (item.is_active if item is defined and item is not none else 1) %}
+        <input
+            type="checkbox"
+            class="form-check-input"
+            id="is_active"
+            name="is_active"
+            value="1"
+            {% if active_val %}checked{% endif %}
+        >
+        <label class="form-check-label" for="is_active">Active in universe</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        {% if mode == "edit" %}Save Changes{% else %}Create{% endif %}
+    </button>
+    <a href="/universe/" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+{% endblock %}

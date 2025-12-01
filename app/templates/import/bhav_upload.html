@@ -1,0 +1,45 @@
+{# app/templates/import/bhav_upload.html #}
+{% extends "base.html" %}
+
+{% block title %}
+Upload BSE Bhav Copy
+{% endblock %}
+
+{% block content %}
+<h2>Upload BSE Bhav Copy</h2>
+
+<form action="/import/bhav/upload" method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label for="trade_date" class="form-label">Trade Date</label>
+        <input
+            type="date"
+            id="trade_date"
+            name="trade_date"
+            class="form-control"
+            required
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="file" class="form-label">Bhav Copy CSV File</label>
+        <input
+            type="file"
+            id="file"
+            name="file"
+            class="form-control"
+            accept=".csv"
+            required
+        >
+    </div>
+
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+
+<p class="mt-3">
+    Expected columns in file:<br>
+    <code>
+        TradDt, FinInstrmId, TckrSymb, ISIN, OpnPric, HghPric, LwPric, ClsPric, TtlTradgVol
+    </code>
+</p>
+{% endblock %}

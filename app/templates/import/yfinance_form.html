@@ -1,0 +1,41 @@
+{# app/templates/import/yfinance_form.html #}
+{% extends "base.html" %}
+
+{% block title %}
+Import from yfinance
+{% endblock %}
+
+{% block content %}
+<h2>Import OHLCV Data from yfinance</h2>
+
+<p>
+    This will fetch daily OHLCV data for all <strong>active</strong> universe
+    stocks that have a <code>yfinance_ticker</code> defined.
+</p>
+
+<form action="/import/yfinance/run" method="post">
+    <div class="mb-3">
+        <label for="start_date" class="form-label">Start date</label>
+        <input
+            type="date"
+            id="start_date"
+            name="start_date"
+            class="form-control"
+            required
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="end_date" class="form-label">End date</label>
+        <input
+            type="date"
+            id="end_date"
+            name="end_date"
+            class="form-control"
+            required
+        >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Run yfinance import</button>
+</form>
+{% endblock %}

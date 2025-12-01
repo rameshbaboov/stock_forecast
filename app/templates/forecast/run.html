@@ -1,0 +1,27 @@
+{# app/templates/forecast/run.html #}
+{% extends "base.html" %}
+
+{% block title %}
+Run Forecast
+{% endblock %}
+
+{% block content %}
+<h2>Run Forecast</h2>
+
+<p>This will generate forecasts for all active universe stocks.</p>
+
+<form action="/forecast/run" method="post">
+    <div class="mb-3">
+        <label for="description" class="form-label">Run description (optional)</label>
+        <input
+            type="text"
+            id="description"
+            name="description"
+            class="form-control"
+            placeholder="e.g. Daily run"
+        >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Run Forecast</button>
+</form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{# app/templates/import/import_log.html #}
+{% extends "base.html" %}
+
+{% block title %}
+Import Log
+{% endblock %}
+
+{% block content %}
+<h2>Import Log</h2>
+
+{% if messages and messages|length > 0 %}
+    <ul>
+        {% for msg in messages %}
+            <li>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No messages.</p>
+{% endif %}
+
+<p class="mt-3">
+    <a href="/import/yfinance">Back to yfinance import</a> |
+    <a href="/import/bhav">Back to bhav upload</a> |
+    <a href="/forecast/latest">View latest forecasts</a>
+</p>
+{% endblock %}

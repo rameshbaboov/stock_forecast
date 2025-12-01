@@ -1,0 +1,57 @@
+{# app/templates/forecast/list.html #}
+{% extends "base.html" %}
+
+{% block title %}
+Latest Forecasts
+{% endblock %}
+
+{% block content %}
+<h2>Latest Forecasts</h2>
+
+{% if not run %}
+<p>No forecast runs found.</p>
+{% else %}
+<p>
+    Run time:
+    <strong>{{ run.run_time }}</strong>
+    {% if run.description %} ({{ run.description }}){% endif %}
+</p>
+
+<table class="table table-striped table-sm">
+    <thead>
+    <tr>
+        <th>Exchange</th>
+        <th>Symbol</th>
+        <th>As of</th>
+        <th>Forecast date</th>
+        <th>Last close</th>
+        <th>Forecast return</th>
+        <th>Forecast price</th>
+        <th>Trend</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for r in results %}
+    <tr>
+        <td>{{ r.exchange_code }}</td>
+        <td>
+            <a href="/reports/stock/{{ r.universe_id }}">
+                {{ r.symbol }}
+            </a>
+        </td>
+        <td>{{ r.as_of_date }}</td>
+        <td>{{ r.next_date }}</td>
+        <td>{{ "%.2f"|format(r.last_close) }}</td>
+        <td>{{ "%.4f"|format(r.forecast_return) }}</td>
+        <td>{{ "%.2f"|format(r.forecast_price) }}</td>
+        <td>{{ r.trend_flag }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<p class="mt-3">
+    <a href="/forecast/run">Run new forecast</a>
+</p>
+{% endblock %}
